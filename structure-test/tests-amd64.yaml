@@ -1,0 +1,28 @@
+schemaVersion: "2.0.0"
+
+globalEnvVars:
+  - key: "PUID"
+    value: "1000"
+  - key: "GUID"
+    value: "1000"
+
+fileExistenceTests:
+
+# check rclone_version.txt file exists
+  - name: 'rclone_version'
+    path: '/rclone_version.txt'
+    shouldExist: true
+
+# check rclone binary file exists
+  - name: 'rclone binary'
+    path: '/usr/bin/rclone'
+    shouldExist: true
+
+metadataTest:
+  env:
+    - key: RCLONE_VERSION
+      value: v1.40
+    - key: RCLONE_ARCH
+      value: amd64
+  volumes: ["/data"]
+  entrypoint: ["/init"]
