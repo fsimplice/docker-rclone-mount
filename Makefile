@@ -33,7 +33,14 @@ tag:
 	@docker tag $(REPO):$(DIST)_$(TAG)_$(ARCH)$(VARIANT) $(REPO):$(DIST)_$(TAG)_$(ARCH)
 
 run:
-	@docker run --rm --name local-rclone-mount $(REPO):$(DIST)_$(TAG)_$(ARCH)$(VARIANT) rclone --version
+#	@docker run --rm --name local-rclone-mount $(REPO):$(DIST)_$(TAG)_$(ARCH)$(VARIANT) rclone --version
+	@docker run \
+		--rm \
+		--cap-add=SYS_ADMIN \
+		--device=/dev/fuse:/dev/fuse \
+		--name local-rclone-mount \
+		-e RCLONE_CONFIG_LOCAL_TYPE=local \
+		$(REPO):$(DIST)_$(TAG)_$(ARCH)$(VARIANT)
 
 run-shell:
 	@docker run -it --rm $(RUN_OPTS) $(REPO):$(DIST)_$(TAG)_$(ARCH)$(VARIANT) /bin/bash
