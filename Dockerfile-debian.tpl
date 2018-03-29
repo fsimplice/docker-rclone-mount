@@ -6,7 +6,9 @@ ENV RCLONE_ARCH ${RCLONE_ARCH:-amd64}
 
 COPY rootfs /
 
-RUN apt-get update && apt-get install -y zip
+RUN apt-get update && apt-get install -y \
+	fuse \
+	zip
 
 
 RUN echo -e "__BASE__\n$RCLONE_VERSION $RCLONE_ARCH" > /rclone_version.txt

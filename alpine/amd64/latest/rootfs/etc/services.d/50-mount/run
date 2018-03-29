@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv /bin/bash
+
+#if [ -z "$REMOTE_PATH" ]; then
+#  echo "Failed: REMOTE_PATH env var missing"
+#  exit 1
+#fi
+
+cmd="rclone --config /tmp/rclone.conf mount --allow-other ${RCLONE_MOUNT_OPTIONS} ${REMOTE_PATH:-local:/} /data"
+echo "Mounting ${REMOTE_PATH} using ${cmd}"
+exec \
+       s6-setuidgid app ${cmd}

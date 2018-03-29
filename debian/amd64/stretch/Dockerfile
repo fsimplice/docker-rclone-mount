@@ -6,7 +6,9 @@ ENV RCLONE_ARCH ${RCLONE_ARCH:-amd64}
 
 COPY rootfs /
 
-RUN apt-get update && apt-get install -y zip
+RUN apt-get update && apt-get install -y \
+	fuse \
+	zip
 
 
 RUN echo -e "elfabio972/baseimage-s6:debian_stretch_amd64\n$RCLONE_VERSION $RCLONE_ARCH" > /rclone_version.txt

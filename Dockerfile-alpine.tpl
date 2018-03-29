@@ -4,11 +4,17 @@ ARG RCLONE_ARCH
 ENV RCLONE_VERSION ${RCLONE_VERSION:-v1.40}
 ENV RCLONE_ARCH ${RCLONE_ARCH:-amd64}
 
-COPY rootfs /
+#COPY rootfs /
 
 RUN echo -e "__BASE__\n$RCLONE_VERSION $RCLONE_ARCH" > /rclone_version.txt
+
+RUN apk update && \
+    apk add --no-cache fuse
 
 RUN curl -L --max-redirs 10 -o /tmp/rclone-${RCLONE_VERSION}-linux-${RCLONE_ARCH}.zip https://downloads.rclone.org/${RCLONE_VERSION}/rclone-${RCLONE_VERSION}-linux-${RCLONE_ARCH}.zip \
     && unzip -d /tmp /tmp/rclone-${RCLONE_VERSION}-linux-${RCLONE_ARCH}.zip */rclone \
     && mv /tmp/rclone-${RCLONE_VERSION}-linux-${RCLONE_ARCH}/rclone /usr/bin/ \
     && rm -rf /tmp/rclone-${RCLONE_VERSION}-linux-${RCLONE_ARCH}*
+
+COPY rootfs /
+
